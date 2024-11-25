@@ -7,7 +7,7 @@ import { useGSAP } from "@gsap/react";
 
 function App() {
   const [showCanvas, setShowCanvas] = useState(false);
-  const headingref = useRef(null);
+  const headingRef = useRef(null);
   const growingSpan = useRef(null);
 
   useEffect(() => {
@@ -54,30 +54,27 @@ function App() {
       });
     };
 
-    const headingElement = headingref.current;
-    headingElement.addEventListener("click", handleClick);
-
-    // Clean up event listener on unmount
-    return () => headingElement.removeEventListener("click", handleClick);
+    const headingElement = headingRef.current;
+    if (headingElement) {
+      headingElement.addEventListener("click", handleClick);
+      return () => headingElement.removeEventListener("click", handleClick);
+    }
   }, []);
   
   return (
-    // {data[0].map((canvasdets, index) => (
-    //   <Canvas key={index} props={canvasdets} />
-    // ))}
-
     <>
-     <span
+      <span
         ref={growingSpan}
         className="growing rounded-full block fixed top-[-20px] left-[-20px] w-5 h-5"
       ></span>
 
-<div className="w-full relative min-h-screen font-['Helvetica_Now_Display']">
-        {showCanvas &&
-          data[0].map((canvasdets, index) => <Canvas key={index} props={canvasdets} />)}
-        <div className="w-full relative z-[1] h-screen ">
+      <div className="w-full relative min-h-screen font-['Helvetica_Now_Display']">
+        {showCanvas && data[0].map((canvasDets, index) => (
+          <Canvas key={index} props={canvasDets} />
+        ))}
+        <div className="w-full relative z-[1] h-screen">
           <nav className="w-full p-8 flex justify-between z-50">
-            <div className="brand text-2xl font-md">thirtysixstudios</div>
+            <div className="brand text-2xl font-medium">thirtysixstudios</div>
             <div className="links flex gap-10">
               {[
                 "What we do",
@@ -87,7 +84,7 @@ function App() {
               ].map((link, index) => (
                 <a
                   key={index}
-                  href={`#${link.toLowerCase()}`}
+                  href={`#${link.toLowerCase().replace(/\s+/g, '-')}`}
                   className="text-md hover:text-gray-300"
                 >
                   {link}
@@ -95,7 +92,7 @@ function App() {
               ))}
             </div>
           </nav>
-          <div className="textcontainer  w-full px-[20%]">
+          <div className="text-container w-full px-[20%]">
             <div className="text w-[50%]">
               <h3 className="text-4xl leading-[1.2]">
                 At Thirtysixstudio, we build immersive digital experiences for
@@ -111,7 +108,7 @@ function App() {
           </div>
           <div className="w-full top-[45vw] absolute bottom-0 left-0">
             <h1
-              ref={headingref}
+              ref={headingRef}
               className="text-[12.5rem] font-normal tracking-tight leading-none pl-5"
             >
               Thirtysixstudios
@@ -119,14 +116,15 @@ function App() {
           </div>
         </div>
       </div>
-      <div className="w-full relative h-screen  mt-[20vw] px-10">
-        {showCanvas &&
-          data[1].map((canvasdets, index) => <Canvas  props={canvasdets} />)}
-        <h1 className="text-8xl tracking-tighter">about the brand</h1>
+      <div className="w-full relative h-screen mt-[20vw] px-10">
+        {showCanvas && data[1].map((canvasDets, index) => (
+          <Canvas key={index} props={canvasDets} />
+        ))}
+        <h1 className="text-8xl tracking-tighter">About the brand</h1>
         <p className="text-4xl leading-[1.8] w-[80%] mt-10 font-light">
-          we are a team of designers, developers, and strategists who are
+          We are a team of designers, developers, and strategists who are
           passionate about creating digital experiences that are both beautiful
-          and functional, we are a team of designers, developers, and
+          and functional. We are a team of designers, developers, and
           strategists who are passionate about creating digital experiences that
           are both beautiful and functional.
         </p>
@@ -134,7 +132,7 @@ function App() {
         <img
           className="w-[80%] mt-10"
           src="https://directus.funkhaus.io/assets/b3b5697d-95a0-4af5-ba59-b1d423411b1c?withoutEnlargement=true&fit=outside&width=1400&height=1400"
-          alt=""
+          alt="Brand illustration"
         />
       </div>
     </>
